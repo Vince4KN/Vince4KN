@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns1:InboundShipmentAdvice xmlns:adr="http://kn.swiftlog/address/0200"
+   xmlns:asn="http://kn.swiftlog/advancedshipmentnotice/0200"
+   xmlns:iis="http://kn.swiftlog/InboundShipment/0200"
+   xmlns:isaio="http://kn.swiftlog/ISAInboundOrder/0200"
+   xmlns:isaod="http://kn.swiftlog/ISAOrderDetail/0200"
+   xmlns:isard="http://kn.swiftlog/ISAReceiptDetail/0200"
+   xmlns:ns1="http://kn.swiftlog/InboundShipmentAdvice/0200"
+   xmlns:nte="http://kn.swiftlog/note/0200"
+   xmlns:rct="http://kn.swiftlog/Receipt/0200"
+   xmlns:ref="http://kn.swiftlog/reference/0200"
+   xmlns:rln="http://kn.swiftlog/ReceiptLine/0200"
+   xmlns:rou="http://kn.swiftlog/routing/0200"
+   xmlns:sn="http://kn.swiftlog/serialnumber/0200"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://kn.swiftlog/InboundShipmentAdvice/0200 InboundShipmentAdvice_0200.xsd">
+   <rou:Routing>
+      <rou:Uuid>${generateIDForType('requestid')}</rou:Uuid>
+      <rou:JMSCorrelationID>${orderDetails.originatorReference}</rou:JMSCorrelationID>
+      <rou:KNESB_Routing_Country>US</rou:KNESB_Routing_Country>
+      <rou:KNESB_Routing_Warehouse>USLCZ02</rou:KNESB_Routing_Warehouse>
+      <rou:KNESB_Routing_Client>ONRUN</rou:KNESB_Routing_Client>
+      <rou:KNESB_Routing_ReceiverId>SwiftLog</rou:KNESB_Routing_ReceiverId>
+   </rou:Routing>
+   <MessageType>InboundShipmentAdvice</MessageType>
+   <MessageVersion>0210</MessageVersion>
+   <ProcessMode>A</ProcessMode>
+   <iis:InboundShipment>
+      <Warehouse>USLCZ02</Warehouse>
+      <InboundShipment>${orderDetails.shipmentNumber}</InboundShipment>
+      <InboundShipmentReference>${orderDetails.shipmentNumber}</InboundShipmentReference>
+      <NumberofCases>${orderDetails.numberofCases}</NumberofCases>
+      <ExpectedDate>${getFrmTimestamp('yyyyMMdd')}000020+0000</ExpectedDate>
+      <ShippedDate/>
+      <MasterBOL/>
+      <DocumentNumberBOL/>
+      <PRO/>
+      <rct:Receipt>
+         <#list Supplier as supp>
+<adr:Address>
+<AddressType>Supplier</AddressType>
+<AddressName>${supp.AddresName}</AddressName>
+<LocaleID>US_ENGLISH</LocaleID>
+<TimeZone>America/New_York</TimeZone>
+<AddressLine1>${supp.AddresLine1!}</AddressLine1>
+<AddressLine2>${supp.AddresLine2!}</AddressLine2>
+<AddressLine3/>
+<City>${supp.City}</City>
+<PostalCode>${supp.PostalCode!}</PostalCode>
+<Country>${supp.Country}</Country>
+<StateProvince/>
+</adr:Address>
+</#list>
+<Receipt>${orderDetails.shipmentNumber}</Receipt>
+<Client>ONRUN</Client>
+<isaod:ISAOrderDetail>
+<isard:ISAReceiptDetail>
+<InboundOrderType>${orderDetails.orderType}</InboundOrderType>
+<ReceiptDate/>
+<OriginatorReference>${orderDetails.originatorReference}</OriginatorReference>
+<SADNumber/>
+<WaybillBOL/>
+<CustomsOrderType/>
+<#list detailsOfTheSku as line>
+<#if !line.belongsToLine?has_content>
+<rln:ReceiptLine>
+<ReceiptLine>${line.ReceiptOrderLineNumber}</ReceiptLine>
+<ReceiptSubLine>${line.ReceiptSubLine}</ReceiptSubLine>
+<ItemClient>ONRUN</ItemClient>
+<Item>${line.Item}</Item>
+<ExpectedQuantity>${line.ExpectedQuantity}</ExpectedQuantity>
+<ReceiveStatus>${line.ReceiveStatus}</ReceiveStatus>
+<ExpectedLotNumber/>
+<ExpectedExpirationDate/>
+<ExpectedManufacturedDate/>
+<ExpectedInventoryAttributeDate1/>
+<ExpectedInventoryAttributeDate2/>
+<ExpectedInventoryAttributeText1/>
+<ExpectedInventoryAttributeText2/>
+<ExpectedInventoryAttributeText3/>
+<ExpectedInventoryAttributeText4/>
+<ExpectedInventoryAttributeText5/>
+<ExpectedInventoryAttributeText6/>
+<ExpectedInventoryAttributeText7/>
+<ExpectedInventoryAttributeText8/>
+<ExpectedInventoryAttributeText9/>
+<ExpectedInventoryAttributeText10/>
+<ExpectedInventoryAttributeText11/>
+<ExpectedInventoryAttributeText12/>
+<ExpectedInventoryAttributeText13/>
+<ExpectedInventoryAttributeText14/>
+<ExpectedInventoryAttributeText15/>
+<ExpectedInventoryAttributeText16/>
+<ExpectedInventoryAttributeText17/>
+<ExpectedInventoryAttributeText18/>
+<CustomsOrderType/>
+<CommodityCode/>
+<CustomsVATCode/>
+<DutyStampTracked/>
+<DefaultOriginCode>${line.DefaultOriginCode}</DefaultOriginCode>
+<DefaultFPCode/>
+<ref:Reference>
+<Qualifier>${line.Qualifier}</Qualifier>
+<Value>${line.QualValue}</Value>
+</ref:Reference>
+<#if line.CaseIdentifier?has_content>
+<asn:AdvancedShipmentNotice>
+<UnitsPerCase>${line.UnitsPerCase}</UnitsPerCase>
+<UnitsPerPack>${line.UnitsPerPack}</UnitsPerPack>
+<UnitQuantity>${line.UnitQuantity}</UnitQuantity>
+<InventoryStatus>${line.InventoryStatus}</InventoryStatus>
+<Footprint/>
+<FIFODate/>
+<LPN/>
+<CaseIdentifier>${line.CaseIdentifier}</CaseIdentifier>
+<PieceIdentifier/>
+<DestinationLocation>${orderDetails.shipmentNumber}</DestinationLocation>
+<OriginCode>${line.OriginCode}</OriginCode>
+<Revision/>
+<LotNumber/>
+<SupplierLotNumber/>
+<AgingProfile/>
+<ManufacturedDate/>
+<ExpiryDate/>
+<DistributionIdentifier/>
+<HandlingUnitType/>
+<InventoryAttributeDate1/>
+<InventoryAttributeDate2/>
+<InventoryAttributeText1/>
+<InventoryAttributeText2/>
+<InventoryAttributeText3/>
+<InventoryAttributeText4/>
+<InventoryAttributeText5/>
+<InventoryAttributeText6/>
+<InventoryAttributeText7/>
+<InventoryAttributeText8/>
+<InventoryAttributeText9/>
+<InventoryAttributeText10/>
+<InventoryAttributeText11/>
+<InventoryAttributeText12/>
+<InventoryAttributeText13/>
+<InventoryAttributeText14/>
+<InventoryAttributeText15/>
+<InventoryAttributeText16/>
+<InventoryAttributeText17/>
+<InventoryAttributeText18/>
+<CustomsConsignmentID/>
+<UnderBond/>
+<ExciseDutyStampTracked/>
+<SSCCPrefixFlag/>
+<CustomsType/>
+</asn:AdvancedShipmentNotice>
+</#if>
+<#list detailsOfTheSku as line1>
+<#if line1.CaseIdentifier?has_content && line1.belongsToLine?has_content && (line1.belongsToLine?string == line.ReceiptOrderLineNumber?string)>
+<asn:AdvancedShipmentNotice>
+<UnitsPerCase>${line1.UnitsPerCase}</UnitsPerCase>
+<UnitsPerPack>${line1.UnitsPerPack}</UnitsPerPack>
+<UnitQuantity>${line1.UnitQuantity}</UnitQuantity>
+<InventoryStatus>${line1.InventoryStatus}</InventoryStatus>
+<Footprint/>
+<FIFODate/>
+<LPN/>
+<CaseIdentifier>${line1.CaseIdentifier}</CaseIdentifier>
+<PieceIdentifier/>
+<DestinationLocation>${orderDetails.shipmentNumber}</DestinationLocation>
+<OriginCode>${line1.OriginCode}</OriginCode>
+<Revision/>
+<LotNumber/>
+<SupplierLotNumber/>
+<AgingProfile/>
+<ManufacturedDate/>
+<ExpiryDate/>
+<DistributionIdentifier/>
+<HandlingUnitType/>
+<InventoryAttributeDate1/>
+<InventoryAttributeDate2/>
+<InventoryAttributeText1/>
+<InventoryAttributeText2/>
+<InventoryAttributeText3/>
+<InventoryAttributeText4/>
+<InventoryAttributeText5/>
+<InventoryAttributeText6/>
+<InventoryAttributeText7/>
+<InventoryAttributeText8/>
+<InventoryAttributeText9/>
+<InventoryAttributeText10/>
+<InventoryAttributeText11/>
+<InventoryAttributeText12/>
+<InventoryAttributeText13/>
+<InventoryAttributeText14/>
+<InventoryAttributeText15/>
+<InventoryAttributeText16/>
+<InventoryAttributeText17/>
+<InventoryAttributeText18/>
+<CustomsConsignmentID/>
+<UnderBond/>
+<ExciseDutyStampTracked/>
+<SSCCPrefixFlag/>
+<CustomsType/>
+</asn:AdvancedShipmentNotice>
+</#if>
+</#list>
+</rln:ReceiptLine>
+</#if>
+</#list>
+</isard:ISAReceiptDetail>
+</isaod:ISAOrderDetail>
+</rct:Receipt>
+</iis:InboundShipment>
+</#list>
+</ns1:InboundShipmentAdvice>
