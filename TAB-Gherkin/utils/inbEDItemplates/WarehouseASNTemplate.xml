@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LC-ONRUN-RCPT-INB-IFD>
+  <CTRL_SEG>
+    <TRNNAM>RCPT_TRAN</TRNNAM>
+    <TRNVER>2020.1</TRNVER>
+    <WHSE_ID>${wh_id}</WHSE_ID>
+    <LC-ONRUN-SUPP-SEG>
+      <SEGNAM>LC-ONRUN-SUPP</SEGNAM>
+      <TRNTYP>R</TRNTYP>
+      <SUPNUM>ON00000001</SUPNUM>
+      <CLIENT_ID>ONRUN</CLIENT_ID>
+      <HOST_EXT_ID>${hostExtid}</HOST_EXT_ID>
+      <ADRNAM>On Running Supplly Chain</ADRNAM>
+      <ADRTYP>SUPP</ADRTYP>
+      <ADRLN1>Pfingstweidstrasse 106</ADRLN1>
+      <ADRLN2>Pfingstweidstrasse 106</ADRLN2>
+      <ADRLN3 />
+      <ADRCTY>Zurich</ADRCTY>
+      <ADRSTC />
+      <ADRPSZ>8005</ADRPSZ>
+      <CTRY_NAME>CHE</CTRY_NAME>
+      <RGNCOD>CHE</RGNCOD>
+      <PHNNUM />
+      <FAXNUM />
+      <RSAFLG />
+      <TEMP_FLG>0</TEMP_FLG>
+      <LAST_NAME />
+      <FIRST_NAME />
+      <HONORIFIC />
+      <ADR_DISTRICT />
+      <WEB_ADR />
+      <EMAIL_ADR />
+      <PAGNUM />
+      <LOCALE_ID>US_ENGLISH</LOCALE_ID>
+      <PO_BOX_FLG />
+      <TRK_CNSG_COD>B2B</TRK_CNSG_COD>
+      <ASSET_TYP />
+      <RCVSTS />
+      <LOT_FMT_ID />
+      <SER_NUM_TYP_ID />
+      <TRUST_FLG>${trustFlg}</TRUST_FLG>
+      <LOAD_ATTR1_CFG />
+      <LOAD_ATTR2_CFG />
+      <LOAD_ATTR3_CFG />
+      <LOAD_ATTR4_CFG />
+      <LOAD_ATTR5_CFG />
+    </LC-ONRUN-SUPP-SEG>
+    <RCPT_TRLR_SEG>
+      <SEGNAM>RECEIPT TRAILER</SEGNAM>
+      <TRNTYP>A</TRNTYP>
+      <TRLR_NUM>${trlrNum}</TRLR_NUM>
+      <CARCOD></CARCOD>
+      <TRLR_STAT>EX</TRLR_STAT>
+      <YARD_LOC>IN-TRANSIT</YARD_LOC>
+      <PEND_DTE>${entDte}</PEND_DTE>
+      <MODDTE>${entDte}</MODDTE>
+      <TRLR_COD>RCV</TRLR_COD>
+      <ARRDTE>${entDte}</ARRDTE>
+      <YARD_LOC_WH_ID>${wh_id}</YARD_LOC_WH_ID>
+      <TRLR_REF></TRLR_REF>
+    </RCPT_TRLR_SEG>
+    <RCPT_TRUCK_SEG>
+      <SEGNAM>RECEIPT TRUCK</SEGNAM>
+      <TRNTYP>A</TRNTYP>
+      <TRKNUM>${InboundShipment}</TRKNUM>
+      <TRKREF>${InboundOrder}</TRKREF>
+      <NUMPAL />
+      <NUMCAS>1</NUMCAS>
+      <EXPDTE>${entDte}</EXPDTE>
+      <CARCOD></CARCOD>
+    </RCPT_TRUCK_SEG>
+    <RCPT_INVOICE_SEG>
+      <SEGNAM>RECEIPT INVOICE</SEGNAM>
+      <TRNTYP>A</TRNTYP>
+      <INVNUM>${InboundShipment}</INVNUM>
+      <SUPNUM>ON00000001</SUPNUM>
+      <CLIENT_ID>ONRUN</CLIENT_ID>
+      <INVTYP>P</INVTYP>
+      <SADNUM>${InboundShipment}</SADNUM>
+      <WAYBIL>${Bol}</WAYBIL>
+      <INVDTE>${entDte}</INVDTE>
+      <ORGREF>${InboundShipment}</ORGREF>
+      <SHIP_ID></SHIP_ID>
+      <DOC_NUM>${Bol}</DOC_NUM>
+      <TRACK_NUM>PRO${Bol}</TRACK_NUM>
+      <TRKNUM>${InboundShipment}</TRKNUM>
+      <PO_NUM>${InboundOrder}</PO_NUM>
+      <RCPT_LINE_SEG>
+        <SEGNAM>RECEIPT LINE</SEGNAM>
+        <TRNTYP>A</TRNTYP>
+        <INVLIN>1</INVLIN>
+        <INVSLN>1</INVSLN>
+        <EXPQTY>${expQty}</EXPQTY>
+        <PRTNUM>${item01}</PRTNUM>
+        <RCVSTS>${rcvSts}</RCVSTS>
+        <SHIP_LINE_ID>1</SHIP_LINE_ID>
+        <PRT_CLIENT_ID>ONRUN</PRT_CLIENT_ID>
+        <RCPT_ASN_SEG>
+          <SEGNAM>RECEIPT ASN</SEGNAM>
+          <TRNTYP>A</TRNTYP>
+          <PRTNUM>${item01}</PRTNUM>
+          <UNTCAS>${untCas}</UNTCAS>
+          <UNTPAK>0000000001</UNTPAK>
+          <UNTQTY>${csQty1}</UNTQTY>
+          <INVSTS>${rcvSts}</INVSTS>
+          <DSTLOC>${InboundShipment}</DSTLOC>
+          <LODNUM>${LPN01}</LODNUM>
+          <SUBNUM>${SSCC01}</SUBNUM>
+          <DTLNUM></DTLNUM>
+          <PRT_CLIENT_ID>ONRUN</PRT_CLIENT_ID>
+          <INVLIN>1</INVLIN>
+          <INVSLN>1</INVSLN>
+          <RCPT_TRKNUM>${InboundShipment}</RCPT_TRKNUM>
+        </RCPT_ASN_SEG>
+      </RCPT_LINE_SEG>
+    </RCPT_INVOICE_SEG>
+  </CTRL_SEG>
+</LC-ONRUN-RCPT-INB-IFD>
