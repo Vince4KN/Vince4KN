@@ -133,172 +133,40 @@ for (let i = 1; i <= numCases; i++) {
 
 
 // Build the asn:AdvancedShipmentNotice elements for each case
+// loop for number of generatedcaseIdentifiers.
 let asnXml = "";
 for (const caseData of cases) {
-const LPN = generateLPN();
+const LPN = generateLPN(); // Generate a new LPN for each case
+
+//EDI segment per case gets constructed here 
+// backticks for template literal ``
 asnXml += `<asn:AdvancedShipmentNotice>
 <UnitsPerCase>${unitsperCase}</UnitsPerCase>
 <UnitsPerPack>${untPak}</UnitsPerPack>
 <UnitQuantity>${csExpectedqty}</UnitQuantity>
 <InventoryStatus>${Sts01}</InventoryStatus>
-<Footprint/>
-<FIFODate/>
 <LPN>${LPN}</LPN>  
 <CaseIdentifier>${caseData.caseIdentifier}</CaseIdentifier>  
 <PieceIdentifier/>
 <DestinationLocation>${inbShipment}</DestinationLocation>
 <OriginCode>${coo01}</OriginCode>
-<Revision/>
-<LotNumber/>
-<SupplierLotNumber/>
-<AgingProfile/>
-<ManufacturedDate/>
-<ExpiryDate/>
-<DistributionIdentifier/>
-<HandlingUnitType/>
-<InventoryAttributeDate1/>
-<InventoryAttributeDate2/>
-<InventoryAttributeText1/>
-<InventoryAttributeText2/>
-<InventoryAttributeText3/>
-<InventoryAttributeText4/>
-<InventoryAttributeText5/>
-<InventoryAttributeText6/>
-<InventoryAttributeText7/>
-<InventoryAttributeText8/>
-<InventoryAttributeText9/>
-<InventoryAttributeText10/>
-<InventoryAttributeText11/>
-<InventoryAttributeText12/>
-<InventoryAttributeText13/>
-<InventoryAttributeText14/>
-<InventoryAttributeText15/>
-<InventoryAttributeText16/>
-<InventoryAttributeText17/>
-<InventoryAttributeText18/>
-<CustomsConsignmentID/>
-<UnderBond/>
-<ExciseDutyStampTracked/>
-<SSCCPrefixFlag/>
-<CustomsType/>
 </asn:AdvancedShipmentNotice>`;
 
-}
+} //end of loop for segment creation per case
 
 // Now, embed the generated asnXml into your main XML template
+// the main XML template holds the overall order data (supplier info, address name, routing info, etc..)
+// establish the xmlTemplate as a template literal using backticks to make sure EDI structure remains consistent with every request.
 var xmlTemplate = `<?xml version="1.0" encoding="utf-8"?>
-<ns1:InboundShipmentAdvice xmlns:nte="http://kn.swiftlog/note/0200"
-xmlns:rct="http://kn.swiftlog/Receipt/0200"
-xmlns:adr="http://kn.swiftlog/address/0200"
-xmlns:rou="http://kn.swiftlog/routing/0200"
-xmlns:ref="http://kn.swiftlog/reference/0200"
-xmlns:rln="http://kn.swiftlog/ReceiptLine/0200"
-xmlns:isaod="http://kn.swiftlog/ISAOrderDetail/0200"
-xmlns:isaio="http://kn.swiftlog/ISAInboundOrder/0200"
-xmlns:iis="http://kn.swiftlog/InboundShipment/0200"
-xmlns:isard="http://kn.swiftlog/ISAReceiptDetail/0200"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xmlns:ns1="http://kn.swiftlog/InboundShipmentAdvice/0200"
-xmlns:asn="http://kn.swiftlog/advancedshipmentnotice/0200"
-xmlns:sn="http://kn.swiftlog/serialnumber/0200"
-xmlns:n1="http://www.w3.org/2001/XMLSchema-instance">
-<rou:Routing>
-<rou:Uuid>${request_id}</rou:Uuid>
-<rou:JMSCorrelationID>${request_id}</rou:JMSCorrelationID>
-<rou:KNESB_Routing_Country>US</rou:KNESB_Routing_Country>
-<rou:KNESB_Routing_Warehouse>${wh_id}</rou:KNESB_Routing_Warehouse>
-<rou:KNESB_Routing_Client>ONRUN</rou:KNESB_Routing_Client>
-<rou:KNESB_Routing_ReceiverId>SwiftLog</rou:KNESB_Routing_ReceiverId>
-</rou:Routing>
-<MessageType>InboundShipmentAdvice</MessageType>
-<MessageVersion>0210</MessageVersion>
-<ProcessMode>A</ProcessMode>
-<iis:InboundShipment>
-<Warehouse>${wh_id}</Warehouse>
-<InboundShipment>${inbShipment}</InboundShipment>
-<InboundShipmentReference>${inbShipment}</InboundShipmentReference>
-<GrossWeight>10000</GrossWeight>
-<NumberofPallets>1</NumberofPallets>
-<FreightCost>
-<Value>100</Value>
-<Currency>USD</Currency>
-</FreightCost>
-<NumberofCases>${numCas}</NumberofCases>
-<ExpectedDate>${expDte}</ExpectedDate>
-<ShippedDate/>
-<MasterBOL>${wayBil}</MasterBOL>
-<DocumentNumberBOL>BOL-${wayBil}</DocumentNumberBOL>
-<PRO/>
-<rct:Receipt>
-<adr:Address>
-<AddressType>Supplier</AddressType>
-<AddressName>${addressName}</AddressName>
-<LocaleID>US_ENGLISH</LocaleID>
-<TimeZone>America/New_York</TimeZone>
-<AddressLine1>777 Forex Road</AddressLine1>
-<AddressLine2/>
-<AddressLine3/>
-<City>Boca Raton</City>
-<PostalCode>33431</PostalCode>
-<Country>USA</Country>
-<StateProvince>FL</StateProvince>
-</adr:Address>
-<Receipt>${inbOrder}</Receipt>
-<Client>ONRUN</Client>
-<isaod:ISAOrderDetail>
-<isard:ISAReceiptDetail>
-<InboundOrderType>P</InboundOrderType>
-<ReceiptDate/>
-<OriginatorReference>${orgRef}</OriginatorReference>
-<SADNumber>${inbOrder}</SADNumber>
-<WaybillBOL>${wayBil}</WaybillBOL>
-<CustomsOrderType>F</CustomsOrderType>
-<rln:ReceiptLine>
-<ReceiptLine>001</ReceiptLine>
-<ReceiptSubLine>001</ReceiptSubLine>
-<ItemClient>ONRUN</ItemClient>
-<Item>${itemNo}</Item>
-<ExpectedQuantity>${totexpectedQty}</ExpectedQuantity>
-<ReceiveStatus>${Sts01}</ReceiveStatus>
-<ExpectedLotNumber/>
-<ExpectedExpirationDate/>
-<ExpectedManufacturedDate/>
-<ExpectedInventoryAttributeDate1/>
-<ExpectedInventoryAttributeDate2/>
-<ExpectedInventoryAttributeText1/>
-<ExpectedInventoryAttributeText2/>
-<ExpectedInventoryAttributeText3/>
-<ExpectedInventoryAttributeText4/>
-<ExpectedInventoryAttributeText5/>
-<ExpectedInventoryAttributeText6/>
-<ExpectedInventoryAttributeText7/>
-<ExpectedInventoryAttributeText8/>
-<ExpectedInventoryAttributeText9/>
-<ExpectedInventoryAttributeText10/>
-<ExpectedInventoryAttributeText11/>
-<ExpectedInventoryAttributeText12/>
-<ExpectedInventoryAttributeText13/>
-<ExpectedInventoryAttributeText14/>
-<ExpectedInventoryAttributeText15/>
-<ExpectedInventoryAttributeText16/>
-<ExpectedInventoryAttributeText17/>
-<ExpectedInventoryAttributeText18/>
-<CustomsOrderType></CustomsOrderType>
-<CommodityCode></CommodityCode>
-<CustomsCost>
-<Value>001.00</Value>
-<Currency>USD</Currency>
-</CustomsCost>
-<CustomsVATCode>Z</CustomsVATCode>
-<DutyStampTracked>1</DutyStampTracked>
-<DefaultOriginCode>${coo01}</DefaultOriginCode>
-${asnXml}  
+ {.......EDI Elements and Attributes here using all assigned variables..........}
+${asnXml}  // the asnXML segments are embedded here 
 </rln:ReceiptLine>
 </isard:ISAReceiptDetail>
 </isaod:ISAOrderDetail>
 </rct:Receipt>
 </iis:InboundShipment>
 </ns1:InboundShipmentAdvice>`;
+
 
 pm.environment.set("generatedCaseIdentifiers", generatedCaseIdentifiers.join(", "));
 console.log("Generated Case Identifiers:", generatedCaseIdentifiers);
